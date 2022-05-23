@@ -1,4 +1,5 @@
-class Excercise:
+
+class Exercise:
     def __init__(self, exc):
         '''
         This class manages the state of the excercise.
@@ -134,3 +135,7 @@ class SubTask:
     
     def setData(self, data):
         self.data = data
+
+# Spätere Features:
+#   def getScaledPoints(self):
+#   def autograde(self):
