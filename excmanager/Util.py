@@ -43,3 +43,44 @@ class Util:
         else:
             return False
             
+    # check sql solution
+    def check_sql_solution(query_text, 
+                        student_dict, 
+                        solution, 
+                        partial_score_exact, 
+                        partial_score_keywords, 
+                        partial_score_points):
+        score = 0
+        try:
+            # check for exact match
+            for x in solution:
+                print( "checking columns: ", x, " | ", solution[x])
+                for y in range(len(solution[x])):
+                    print( "   checking cell:", y, " | ", solution[x][y])
+                    check = solution[x][y] == student_dict[x][y]
+                    if check: 
+                        score += partial_score_exact
+                    print("    > ", check, ", score: ", round(score, 4) )
+        except:
+            print('exception caught, aborting')
+            pass # catch, return
+        else:
+            # if the solution isn't exact, apply other rules
+            # = check for keywords in SQL.
+            if round(score,2) < no_of_points: 
+                score = 0
+                print('partial score')
+                for i in partial_score_keywords:
+                    if i in query_text.upper(): score += partial_score_points
+        return score
+
+    # count solution cells in result array
+    def get_solution_count(solution):
+        count = 0
+        for x in solution:
+            for y in range(len(solution[x])):
+                count += 1
+        if count == 0: 
+            count = 1
+        return count
+        
