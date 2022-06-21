@@ -50,8 +50,8 @@ class Util:
                 print("checking columns: ", x, " | ", solution[x])
                 for y in range(len(solution[x])):
                     print("   checking cell:", y, " | ", solution[x][y])
-                    check = solution[x][y] == student_dict[x][y]
-                    if check:
+                    check = _levenshtein.ratio(Util.str_sanitize(solution[x][y]), Util.str_sanitize(student_dict[x][y]))
+                    if 0.8 <= check:
                         score += partial_score_exact
                     print("    > ", check, ", score: ", round(score, 4))
         except:
