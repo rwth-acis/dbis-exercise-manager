@@ -25,11 +25,21 @@ class Util:
         conn.close()
         return attributes, tuples
 
+    def transform_pgsql_resultset_to_list_of_lists(result):
+        result_list = []
+        for row_dicts in result.dicts():
+            row_list = []
+            for attribute, value in row_dicts.items():
+                row_list.append(str(value))
+            result_list.append(row_list)
+        attributes = result.field_names
+        return attributes, result_list
 
     # check sql solution
     def check_sql_solution(query_text,
                            student_dict,
                            solution,
+                           no_of_points,
                            partial_score_exact,
                            partial_score_keywords,
                            partial_score_points):
