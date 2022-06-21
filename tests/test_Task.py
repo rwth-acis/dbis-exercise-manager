@@ -11,7 +11,7 @@ class TestExcercises(Basetest):
         '''
             test excercise and task structure setup
         '''
-        exc = Excercise( 1 )
+        exc = Exercise( 1 )
         task1 = Task( exc, "1.1" )
         subtask1 = SubTask( task1, "a", points = 2 )
 
