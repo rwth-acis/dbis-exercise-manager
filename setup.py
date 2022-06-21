@@ -15,7 +15,7 @@ setup(
     description=Version.description,
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/rwth-acis/dbis-excercise-manager.git",
+    url="https://github.com/rwth-acis/dbis-exercise-manager.git",
     author="Michal Slupczynski",
     author_email="slupczynski@dbis.rwth-aachen.de",
     license="Apache",

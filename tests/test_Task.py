@@ -3,13 +3,13 @@ from locale import ERA
 from tests.basetest import Basetest
 from excmanager.Task import *
 
-class TestExcercises(Basetest):
+class Testexercises(Basetest):
     def setUp(self, debug=False, profile=True):
         return super().setUp(debug, profile)
 
     def testExc(self):
         '''
-            test excercise and task structure setup
+            test exercise and task structure setup
         '''
         exc = Exercise( 1 )
         task1 = Task( exc, "1.1" )

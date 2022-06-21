@@ -2,10 +2,10 @@
 class Exercise:
     def __init__(self, exc):
         '''
-        This class manages the state of the excercise.
+        This class manages the state of the exercise.
 
         Args:
-            exc(int): Excercise (ÜB), example: 1
+            exc(int): exercise (ÜB), example: 1
             task(str): Task (Aufgabe), example: 2
             subtask(str): Subtask(Teilaufgabe), example: a
         '''
@@ -45,7 +45,7 @@ class Task:
         This class manages the state of the task.
 
         Args:
-            exc(int): Excercise (ÜB), example: 1
+            exc(int): exercise (ÜB), example: 1
             task(str): Task (Aufgabe), example: 2
             points(float): Points (Punkte), example: 2
         '''
@@ -98,7 +98,7 @@ class SubTask:
         This class manages the state of the subtask.
 
         Args:
-            exc(int): Excercise (ÜB), example: 1
+            exc(int): exercise (ÜB), example: 1
             subtask(str): Subtask (Teilaufgabe), example: 1.2
             points(float): Points (Punkte), example: 2
         '''        
