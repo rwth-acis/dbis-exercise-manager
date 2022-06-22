@@ -18,6 +18,8 @@ class Util:
         return local_filename
 
     def evaluate_sql(path_to_db, query, display_table=True):
+        if not os.path.exists(path_to_db):
+            raise FileNotFoundError()
         conn = sqlite3.connect(path_to_db)
         cursor = conn.execute(query)
         attributes = [description[0] for description in cursor.description]

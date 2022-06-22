@@ -61,3 +61,12 @@ class TestUtil(Basetest):
             [(1, "oesterreichisch"), (2, "     fransoesischh  ")],
             
             0.8, True) == True
+
+        assert Util.check_table(
+            ["Vorname", "Nachname"],
+            [["Quentin","Tarantino"], ["Robert", "Rodriguez"], ["Ridley", "Scott"], ["Lana", "Wachowski"]],
+            ["Vornname", "Nachname"],
+            [["Quendin","Tarantino"], ["Robert", "Rodriguez"], ["Ridley", "Scott"], ["Lana", "Wachowski"]],
+            0.8,
+            False
+        ) == True

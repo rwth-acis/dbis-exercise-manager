@@ -1,0 +1,4 @@
+ipython==8.4.0
+python_Levenshtein==0.12.2
+requests==2.27.1
+tabulate==0.8.9
