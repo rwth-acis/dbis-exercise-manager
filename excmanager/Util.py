@@ -57,7 +57,7 @@ class Util:
                 print("checking columns: ", x, " | ", solution[x])
                 for y in range(len(solution[x])):
                     print("   checking cell:", y, " | ", solution[x][y])
-                    check = _levenshtein.ratio(solution[x][y], student_dict[x][y])
+                    check = Util.levenshtein_str_callback(solution[x][y], student_dict[x][y])
                     if 0.8 <= check:
                         score += partial_score_exact
                     print("    > ", check, ", score: ", round(score, 4))
