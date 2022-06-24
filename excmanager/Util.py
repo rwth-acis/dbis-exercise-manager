@@ -50,17 +50,22 @@ class Util:
                            partial_score_points):
         score = 0
         try:
+            solution = {Util.str_sanitize(k): v for k, v in solution.items()}
+            student_dict = {Util.str_sanitize(k): v for k, v in student_dict.items()}
             # check for exact match
             for x in solution:
                 print("checking columns: ", x, " | ", solution[x])
                 for y in range(len(solution[x])):
                     print("   checking cell:", y, " | ", solution[x][y])
-                    check = _levenshtein.ratio(Util.str_sanitize(solution[x][y]), Util.str_sanitize(student_dict[x][y]))
+                    check = _levenshtein.ratio(solution[x][y], student_dict[x][y])
                     if 0.8 <= check:
                         score += partial_score_exact
                     print("    > ", check, ", score: ", round(score, 4))
-        except:
+        except Exception as e:
             print('exception caught, aborting')
+            print(f'  {type(e).__name__} {e} ')
+            if type(e).__name__ == "KeyError":
+                print("  ... this error message likely means that a column name is misspelled or that a column was not found.")
             pass  # catch, return
         else:
             # if the solution isn't exact, apply other rules
