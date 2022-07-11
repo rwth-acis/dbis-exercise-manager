@@ -1,9 +1,13 @@
 
 class Exercise:
+    '''
+        This class manages the state of the exercise.
+    '''
+   
     def __init__(self, exc):
         '''
-        This class manages the state of the exercise.
-
+        constructor
+        
         Args:
             exc(int): exercise (ÜB), example: 1
             task(str): Task (Aufgabe), example: 2
@@ -15,6 +19,12 @@ class Exercise:
         pass
 
     def addTask(self, task):
+        '''
+        add the given task
+        
+        Args:
+            task: the task to add
+        '''
         if task.task in self.tasks:
             raise Exception("task already exists")
         if task.task not in self.tasks:

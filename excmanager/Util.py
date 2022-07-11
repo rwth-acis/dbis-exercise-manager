@@ -5,6 +5,9 @@ from tabulate import tabulate
 from Levenshtein import _levenshtein
 
 class Util:
+    '''
+    Utilitizes
+    '''
     # https://stackoverflow.com/a/16696317/3151250
     def download_file(url, folder):
         local_filename = url.split('/')[-1]

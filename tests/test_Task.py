@@ -1,9 +1,11 @@
 import json
-from locale import ERA
 from tests.basetest import Basetest
 from excmanager.Task import *
 
 class Testexercises(Basetest):
+    '''
+    Test Excercise Manager
+    '''
     def setUp(self, debug=False, profile=True):
         return super().setUp(debug, profile)
 
