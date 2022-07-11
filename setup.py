@@ -1,12 +1,12 @@
 import pathlib
-from setuptools import find_packages, setup
-from assets.Version import Version
+from setuptools import setup
+from excmanager.Version import Version
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent.resolve()
 
 # The text of the README file
 README = (HERE / "README.md").read_text()
-requirements = (HERE / 'assets' / 'requirements.txt').read_text(encoding='utf-8').split("\n")
+requirements = (HERE / 'requirements.txt').read_text(encoding='utf-8').split("\n")
 
 # This call to setup() does all the work
 setup(
