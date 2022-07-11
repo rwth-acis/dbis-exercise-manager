@@ -1,6 +1,7 @@
 # DBIS Exercise Manager
 
-[![pypi](https://img.shields.io/pypi/pyversions/dbis-exercise-manager)](https://pypi.org/project/dbis-exercise-manager/)
+[![pypi](https://img.shields.io/pypi/pyversions/dbis-exc-manager)](https://pypi.org/project/dbis-exc-manager/)
+[![PyPI Status](https://img.shields.io/pypi/v/dbis-exc-manager)](https://pypi.python.org/pypi/dbis-exc-manager/)
 
 This class manages the state of the exercises.
 Example for arguments:
