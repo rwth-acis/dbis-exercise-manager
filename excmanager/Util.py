@@ -9,6 +9,7 @@ class Util:
     Utilitizes
     '''
     # https://stackoverflow.com/a/16696317/3151250
+    @staticmethod
     def download_file(url, folder):
         local_filename = url.split('/')[-1]
         full_path = os.path.join(folder, local_filename)
@@ -20,6 +21,7 @@ class Util:
         print(f"Downloaded and placed file at {full_path}")
         return local_filename
 
+    @staticmethod
     def evaluate_sql(path_to_db, query, display_table=True):
         if not os.path.exists(path_to_db):
             raise FileNotFoundError()
@@ -33,6 +35,7 @@ class Util:
         conn.close()
         return attributes, tuples
 
+    @staticmethod
     def transform_pgsql_resultset_to_list_of_lists(result):
         result_list = []
         for row_dicts in result.dicts():
@@ -44,6 +47,7 @@ class Util:
         return attributes, result_list
 
     # check sql solution
+    @staticmethod
     def check_sql_solution(query_text,
                            student_dict,
                            solution,
@@ -82,6 +86,7 @@ class Util:
         return score
 
     # count solution cells in result array
+    @staticmethod
     def get_solution_count(solution):
         count = 0
         for x in solution:
@@ -96,12 +101,14 @@ class Util:
 ###############################################################################################################
 
     # Mapping: Index of new list -> Index of old list
+    @staticmethod
     def permute_list(list, mapping):
         l = list.copy()
         for i in range(0, len(list)):
             list[i] = l[mapping[i]]
 
     # Returns mapping as list or None
+    @staticmethod
     def get_permutation(list_student, list_solution, elem_name, levenshtein_callback, levenshtein_threshold, quiet):
         res = len(list_student) * []
         a = list_student.copy()
@@ -137,15 +144,19 @@ class Util:
             return None
         return res
 
+    @staticmethod
     def str_sanitize(s):
         return str(s).lower().strip().replace("ä", "ae").replace("ö", "oe").replace("ü", "ue")
 
+    @staticmethod
     def levenshtein_str_callback(a, b):
         return _levenshtein.ratio(Util.str_sanitize(a), Util.str_sanitize(b))
 
+    @staticmethod
     def levenshtein_list_callback(a, b):
         return _levenshtein.seqratio(list(map(Util.str_sanitize, list(a))), list(map(Util.str_sanitize, list(b))))
 
+    @staticmethod
     def check_table(attributes_solution, tuples_solution, attributes_student, tuples_student, levenshtein_threshold=1, quiet=False):
         # Get permutation according to attributes
         attribute_mapping = Util.get_permutation(attributes_student, attributes_solution, "attribute", Util.levenshtein_str_callback, levenshtein_threshold, quiet)
