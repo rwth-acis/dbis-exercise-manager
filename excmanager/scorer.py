@@ -74,3 +74,35 @@ class MultipleChoiceScorer(Scorer):
         if self.score < 0 or (len(result) > len(correct) and toManyEquals0 == True):
             self.score = 0
         return self.score
+    
+class SetScorer(Scorer):
+    '''
+     scorer für Sets
+    
+    Für jede richtige Antwort gibt es 1/𝑛 Punkte.
+    Für jede falsche Antwort gibt es −1/𝑛 Punkte.
+    
+    Falls zu viele Antworten angegeben wurden, gibt es negative Punkte 
+    Achten Sie also darauf, nicht zu viele Antworten einzutragen.
+    
+    Es kann insgesamt nicht weniger als 0 Punkte geben.
+    Wenn Sie also mehr falsche als richtige Antworten auswählen, gibt es insgesamt keine Minuspunkte.
+    '''
+    def evaluate_set(self,result, expected, max_points):
+        amount=max_points/len(expected)
+        for ans in result:
+            problem=None
+            check=f"check {ans}"
+            if not ans in expected:
+                problem=f" is incorrect"
+            self.addScore(amount, check, problem,negativeOnProblem=True)
+        # Bei zu vielen angegebenen Antworten mehr falschen als richtigen Antworten: 0 Punkte
+        if self.score < 0:
+            self.score = 0
+        return self.score
+    
+   
+    
+
+    
+    
