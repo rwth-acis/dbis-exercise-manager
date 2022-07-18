@@ -20,7 +20,19 @@ class Scorer():
         self.score=0 # total score reached
         self.verbose=verbose
         self.debug=debug
-    
+        
+    def feedback(self,msg:str,positive:bool):
+        '''
+        give positive or negative feedback with the given message
+        
+        Args:
+            msg(str): the message to print
+            positive(bool): if True add a ✅ marker else ❌
+        '''
+        marker="✅" if positive else "❌"
+        if self.verbose:
+            print(f"{msg} {marker}")
+      
     def addScore(self,amount:float,check:str,problem:str=None,negativeOnProblem:bool=False):
         '''
         add the given amount to self.score if there is no problem 
@@ -41,13 +53,11 @@ class Scorer():
                 self.score-=amount
             else:
                 msg=f"no score"
-            if self.verbose:
-                print(f"{msg} for {check} due to {problem}❌")
+            self.feedback(f"{msg} for {check} due to {problem}", positive=False)
             return
         else:
             self.score+=amount
-            if self.verbose:
-                print(f"adding {amountstr} to score for {check}✅")
+            self.feedback(f"adding {amountstr} to score for {check}",positive=True)
                 
 class MultipleChoiceScorer(Scorer):
     '''
