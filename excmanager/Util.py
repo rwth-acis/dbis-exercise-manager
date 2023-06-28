@@ -150,11 +150,13 @@ class Util:
 
     @staticmethod
     def levenshtein_str_callback(a, b):
-        return ratio(Util.str_sanitize(a), Util.str_sanitize(b))
+        r=ratio(Util.str_sanitize(a), Util.str_sanitize(b))
+        return r
 
     @staticmethod
     def levenshtein_list_callback(a, b):
-        return seqratio(list(map(Util.str_sanitize, list(a))), list(map(Util.str_sanitize, list(b))))
+        sr=seqratio(list(map(Util.str_sanitize, list(a))), list(map(Util.str_sanitize, list(b))))
+        return sr
 
     @staticmethod
     def check_table(attributes_solution, tuples_solution, attributes_student, tuples_student, levenshtein_threshold=1, quiet=False):

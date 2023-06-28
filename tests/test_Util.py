@@ -1,14 +1,18 @@
-import json
-from locale import ERA
+
 from tests.basetest import Basetest
-from excmanager.Task import *
-from excmanager.Util import *
+from excmanager.Util import Util
 
 class TestUtil(Basetest):
+    """
+    test the Util module
+    """
     def setUp(self, debug=False, profile=True):
         return super().setUp(debug, profile)
 
     def testCheckTable(self):
+        """
+        test checking tables
+        """
         assert Util.check_table(["A"], [[]], ["A"], [[]], 0.5, True) == True
 
         assert Util.check_table(["A"], [[]], ["B"], [[]], 0.5, True) == False
