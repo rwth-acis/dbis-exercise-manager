@@ -2,11 +2,11 @@ import os, requests
 from IPython.display import Markdown, display
 import sqlite3
 from tabulate import tabulate
-from Levenshtein import _levenshtein
+from Levenshtein import ratio,seqratio
 
 class Util:
     '''
-    Utilitizes
+    Utilities
     '''
     # https://stackoverflow.com/a/16696317/3151250
     @staticmethod
@@ -150,11 +150,11 @@ class Util:
 
     @staticmethod
     def levenshtein_str_callback(a, b):
-        return _levenshtein.ratio(Util.str_sanitize(a), Util.str_sanitize(b))
+        return ratio(Util.str_sanitize(a), Util.str_sanitize(b))
 
     @staticmethod
     def levenshtein_list_callback(a, b):
-        return _levenshtein.seqratio(list(map(Util.str_sanitize, list(a))), list(map(Util.str_sanitize, list(b))))
+        return seqratio(list(map(Util.str_sanitize, list(a))), list(map(Util.str_sanitize, list(b))))
 
     @staticmethod
     def check_table(attributes_solution, tuples_solution, attributes_student, tuples_student, levenshtein_threshold=1, quiet=False):
