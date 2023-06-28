@@ -1,7 +1,9 @@
 # https://pypi.org/project/ipython/
 ipython>=8.4.0
 # https://pypi.org/project/python-Levenshtein/
-python_Levenshtein>=0.12.2
+# https://pypi.org/project/Levenshtein/
+# Levenshtein 0.21.1 
+Levenshtein>=0.21.1
 # https://pypi.org/project/requests/
 requests>=2.27.1
 # https://pypi.org/project/tabulate/
