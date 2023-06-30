@@ -6,6 +6,7 @@ from Levenshtein import seqratio, setratio
 from tests.basetest import Basetest
 from excmanager.Util import Util
 
+
 class TestUtil(Basetest):
     """
     test the Util module
@@ -52,10 +53,10 @@ class TestUtil(Basetest):
                         ["Blade Runner", "Matrix", "Sci-Fi"]],
                     attributes_student=["A.Titel", "B.Titel", "A.Genre"],
                     tuples_student=[
-                        ["Pulp Fiction","Cloud Atlas","Independant"],
-                        ["Cloud Atlas","Pulp Fiction","Independant"],
-                        ["Alien","Matrix","Sci-Fi"],
-                        ["Blade Runner","Matrix","Sci-Fi"]],
+                        ["Pulp Fiction", "Cloud Atlas", "Independant"],
+                        ["Cloud Atlas", "Pulp Fiction", "Independant"],
+                        ["Alien", "Matrix", "Sci-Fi"],
+                        ["Blade Runner", "Matrix", "Sci-Fi"]],
                     levenshtein_threshold=0.8,
                     expected_result=True),
             TestParam(
@@ -84,9 +85,17 @@ class TestUtil(Basetest):
             ),
             TestParam(
                     attributes_solution=["Vorname", "Nachname"],
-                    tuples_solution=[["Quentin","Tarantino"], ["Robert", "Rodriguez"], ["Ridley", "Scott"], ["Lana", "Wachowski"]],
+                    tuples_solution=[
+                        ["Quentin", "Tarantino"],
+                        ["Robert", "Rodriguez"],
+                        ["Ridley", "Scott"],
+                        ["Lana", "Wachowski"]],
                     attributes_student=["Vornname", "Nachname"],
-                    tuples_student=[["Quendin","Tarantino"], ["Robert", "Rodriguez"], ["Ridley", "Scott"], ["Lana", "Wachowski"]],
+                    tuples_student=[
+                        ["Quendin", "Tarantino"],
+                        ["Robert", "Rodriguez"],
+                        ["Ridley", "Scott"],
+                        ["Lana", "Wachowski"]],
                     levenshtein_threshold=0.8,
                     expected_result=True
             )
@@ -102,7 +111,6 @@ class TestUtil(Basetest):
                         quiet=param.quiet
                 )
                 self.assertEqual(res, param.expected_result)
-
 
     def test_levenshtein_for_lists(self):
         """
