@@ -1,8 +1,10 @@
 import os, requests
+from typing import Any, Callable, List, Optional, Union
+
 from IPython.display import Markdown, display
 import sqlite3
 from tabulate import tabulate
-from Levenshtein import ratio,seqratio
+from Levenshtein import ratio,seqratio, setratio
 
 class Util:
     '''
@@ -48,13 +50,15 @@ class Util:
 
     # check sql solution
     @staticmethod
-    def check_sql_solution(query_text,
-                           student_dict,
-                           solution,
-                           no_of_points,
-                           partial_score_exact,
-                           partial_score_keywords,
-                           partial_score_points):
+    def check_sql_solution(
+            query_text,
+            student_dict,
+            solution,
+            no_of_points,
+            partial_score_exact,
+            partial_score_keywords,
+            partial_score_points
+    ):
         score = 0
         try:
             solution = {Util.str_sanitize(k): v for k, v in solution.items()}
@@ -102,41 +106,48 @@ class Util:
 
     # Mapping: Index of new list -> Index of old list
     @staticmethod
-    def permute_list(list, mapping):
-        l = list.copy()
-        for i in range(0, len(list)):
-            list[i] = l[mapping[i]]
+    def permute_list(data: list, mapping: list):
+        l = data.copy()
+        for i in range(0, len(data)):
+            data[i] = l[mapping[i]]
 
     # Returns mapping as list or None
     @staticmethod
-    def get_permutation(list_student, list_solution, elem_name, levenshtein_callback, levenshtein_threshold, quiet):
+    def get_permutation(
+            list_student: List[Any],
+            list_solution: List[Any],
+            elem_name: str,
+            levenshtein_callback: Callable,
+            levenshtein_threshold: float,
+            quiet: bool = True
+    ) -> Optional[List[Any]]:
         res = len(list_student) * []
         a = list_student.copy()
         b = list_solution.copy()
         error = False
-        for i in range(0, len(a)):
+        for i, student_answer in enumerate(a):
             best = -1
             best_ratio = -1
-            for j in range(0, len(b)):
-                if b[j] == None: # Skip elements that were already matched
+            for j, expected_answer in enumerate(b):
+                if expected_answer is None:  # Skip elements that were already matched
                     continue
-                new_ratio = levenshtein_callback(a[i], b[j])
+                new_ratio = levenshtein_callback(student_answer, expected_answer)
                 if new_ratio >= best_ratio:
                     best_ratio = new_ratio
                     best = j
             if best_ratio >= levenshtein_threshold:
                 res.insert(i, best)
-                if (best_ratio < 1 and not quiet):
-                    print(f"Found {elem_name} '{a[i]}', did you mean '{b[best]}'? Using this instead.")
-                b[best] = None # Mark as matched
+                if best_ratio < 1 and not quiet:
+                    print(f"Found {elem_name} '{student_answer}', did you mean '{b[best]}'? Using this instead.")
+                b[best] = None  # Mark as matched
             else:
                 if not quiet:
-                    print(f"Wrong {elem_name} '{a[i]}'")
+                    print(f"Wrong {elem_name} '{student_answer}'")
                 error = True
 
         # Check if all items have been used, if not, it was missing in student's solution
         for j in range(0, len(b)):
-            if b[j] != None:
+            if b[j] is not None:
                 if not quiet:
                     print(f"Missing {elem_name} '{b[j]}'")
                 error = True
@@ -145,24 +156,63 @@ class Util:
         return res
 
     @staticmethod
-    def str_sanitize(s):
+    def str_sanitize(s: str) -> str:
+        """
+        Sanitize given string by converting it to lowercase and replacing umlauts to corresponding counterparts
+        Args:
+            s: string to sanitize
+        Returns:
+            str: sanitized string
+        """
         return str(s).lower().strip().replace("ä", "ae").replace("ö", "oe").replace("ü", "ue")
 
     @staticmethod
-    def levenshtein_str_callback(a, b):
-        r=ratio(Util.str_sanitize(a), Util.str_sanitize(b))
+    def levenshtein_str_callback(a: str, b: str) -> float:
+        """
+        Compare the given strings with each other with Levenshtein
+        Args:
+            a: string to compare
+            b: string to compare
+        Returns:
+            float: Levenshtein distance ratio of given strings
+        """
+        r = ratio(Util.str_sanitize(a), Util.str_sanitize(b))
         return r
 
     @staticmethod
-    def levenshtein_list_callback(a, b):
-        sr=seqratio(list(map(Util.str_sanitize, list(a))), list(map(Util.str_sanitize, list(b))))
+    def levenshtein_list_callback(a: List[str], b: List[str]) -> float:
+        """
+        Compare the given list of strings with each other with Levenshtein
+        Args:
+            a: list of strings
+            b: list of strings
+        Returns:
+            float: Levenshtein set ratio of the given lists of strings
+        """
+        strlist1 = list(map(Util.str_sanitize, list(a)))
+        strlist2 = list(map(Util.str_sanitize, list(b)))
+        sr = setratio(strlist1, strlist2)
         return sr
 
     @staticmethod
-    def check_table(attributes_solution, tuples_solution, attributes_student, tuples_student, levenshtein_threshold=1, quiet=False):
+    def check_table(
+            attributes_solution: List[str],
+            tuples_solution: List[Any],
+            attributes_student: List[str],
+            tuples_student: List[Any],
+            levenshtein_threshold: float = 1,
+            quiet: bool = False
+    ):
         # Get permutation according to attributes
-        attribute_mapping = Util.get_permutation(attributes_student, attributes_solution, "attribute", Util.levenshtein_str_callback, levenshtein_threshold, quiet)
-        if attribute_mapping == None:
+        attribute_mapping = Util.get_permutation(
+                list_student=attributes_student,
+                list_solution=attributes_solution,
+                elem_name="attribute",
+                levenshtein_callback=Util.levenshtein_str_callback,
+                levenshtein_threshold=levenshtein_threshold,
+                quiet=quiet
+        )
+        if attribute_mapping is None:
             return False
 
         # Permute solution tuples with found mapping
@@ -173,7 +223,14 @@ class Util:
 
         # Check if permutation on tuples can be found
         # If not, some tuples are wrong or missing
-        tuple_mapping = Util.get_permutation(tuples_student, tuples_solution, "tuple", Util.levenshtein_list_callback, levenshtein_threshold, quiet)
-        if tuple_mapping == None:
+        tuple_mapping = Util.get_permutation(
+                list_student=tuples_student,
+                list_solution=tuples_solution,
+                elem_name="tuple",
+                levenshtein_callback=Util.levenshtein_list_callback,
+                levenshtein_threshold=levenshtein_threshold,
+                quiet=quiet
+        )
+        if tuple_mapping is None:
             return False
         return True
